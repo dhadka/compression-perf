@@ -34,6 +34,7 @@ jobs:
             echo "Tar Create - $(which tar)"
             time tar -cf contents_tar.tar contents/
             
+            mkdir -p extracted_tar
             echo "Tar Extract - $(which tar)"
             time tar -xf contents_tar.tar -C extracted_tar/
           }
@@ -45,6 +46,7 @@ jobs:
             echo "GTar Create - $(which gtar)"
             time gtar -cf contents_gtar.tar contents/
             
+            mkdir -p extracted_gtar
             echo "GTar Extract - $(which gtar)"
             time gtar -xf contents_gtar.tar -C extracted_gtar/
           }
