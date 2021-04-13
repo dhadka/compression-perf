@@ -38,11 +38,11 @@ jobs:
             tar --version
           
             section "Tar Create"
-            time tar -cf contents_tar.tar contents/
+            time tar -cf contents_tar.tar contents/ 2>&1
             
             section "Tar Extract"
             mkdir -p extracted_tar
-            time tar -xf contents_tar.tar -C extracted_tar/
+            time tar -xf contents_tar.tar -C extracted_tar/ 2>&1
             
             section "Tar Size"
             ls -al contents_tar.tar
@@ -53,15 +53,15 @@ jobs:
             gtar --version
             
             section "GTar Create"
-            time gtar -cf contents_gtar.tar contents/
+            time gtar -cf contents_gtar.tar contents/ 2>&1
             
             section "GTar Extract"
             mkdir -p extracted_gtar
-            time gtar -xf contents_gtar.tar -C extracted_gtar/
+            time gtar -xf contents_gtar.tar -C extracted_gtar/ 2>&1
         
             section "GTar Extract Tar"
             mkdir -p extracted_tar_with_gtar
-            time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/
+            time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/ 2>&1
             
             section "GTar Size"
             ls -al contents_gtar.tar
