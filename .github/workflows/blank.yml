@@ -1,0 +1,49 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        shell: bash
+        run: |
+          mkdir -p contents
+          seq -w 1 10000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=file.%.txt bs=1024 count=10'
+
+      - name: Timings
+        shell: bash
+        run: |
+          which tar && {
+            echo "Tar Version - $(which tar)"
+            tar --version
+          
+            echo "Tar Create - $(which tar)"
+            time tar -cf contents_tar.tar contents/
+            
+            echo "Tar Extract - $(which tar)"
+            time tar -xf contents_tar.tar extracted_tar/
+          }
+          
+          which gtar && {
+            echo "GTar Version - $(which gtar)"
+            gtar --version
+            
+            echo "GTar Create - $(which gtar)"
+            time gtar -cf contents_gtar.tar contents/
+            
+            echo "GTar Extract - $(which gtar)"
+            time gtar -xf contents_gtar.tar extracted_gtar/
+          }
