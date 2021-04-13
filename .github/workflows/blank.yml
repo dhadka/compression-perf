@@ -28,25 +28,29 @@ jobs:
         shell: bash
         run: |
           which tar > /dev/null && {
-            echo "Tar Version - $(which tar)"
+            echo "Tar Version"
             tar --version
           
-            echo "Tar Create - $(which tar)"
+            echo "Tar Create"
             time tar -cf contents_tar.tar contents/
             
             mkdir -p extracted_tar
-            echo "Tar Extract - $(which tar)"
+            echo "Tar Extract"
             time tar -xf contents_tar.tar -C extracted_tar/
-          }
+          } || echo "tar not found"
           
           which gtar > /dev/null && {
-            echo "GTar Version - $(which gtar)"
+            echo "GTar Version"
             gtar --version
             
-            echo "GTar Create - $(which gtar)"
+            echo "GTar Create"
             time gtar -cf contents_gtar.tar contents/
             
             mkdir -p extracted_gtar
-            echo "GTar Extract - $(which gtar)"
+            echo "GTar Extract"
             time gtar -xf contents_gtar.tar -C extracted_gtar/
-          }
+            
+            mkdir -p extracted_tar_with_gtar
+            echo "GTar Extract Tar"
+            time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/
+          } || echo "gtar not found"
