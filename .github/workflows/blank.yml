@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p contents
-          seq -w 1 100000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=file.%.txt bs=1024 count=10' > /dev/null
+          seq -w 1 100000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=file.%.txt bs=1024 count=10' 2>&1 >/dev/null
 
       - name: Timings
         shell: bash
