@@ -63,6 +63,14 @@ jobs:
             mkdir -p extracted_tar_with_gtar
             time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/ 2>&1
             
+            section "GTar Extract - Delay Directory Restore"
+            mkdir -p extracted_gtar
+            time gtar -xf contents_gtar.tar -C extracted_gtar/ --delay-directory-restore 2>&1
+        
+            section "GTar Extract Tar - Delay Directory Restore"
+            mkdir -p extracted_tar_with_gtar
+            time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/ --delay-directory-restore 2>&1
+            
             section "GTar Size"
             ls -al contents_gtar.tar
           } || echo "gtar not found"
