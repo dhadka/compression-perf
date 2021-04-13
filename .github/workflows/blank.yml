@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
 
@@ -26,7 +27,7 @@ jobs:
       - name: Timings
         shell: bash
         run: |
-          which tar && {
+          which tar > /dev/null && {
             echo "Tar Version - $(which tar)"
             tar --version
           
@@ -34,10 +35,10 @@ jobs:
             time tar -cf contents_tar.tar contents/
             
             echo "Tar Extract - $(which tar)"
-            time tar -xf contents_tar.tar extracted_tar/
+            time tar -xf contents_tar.tar -C extracted_tar/
           }
           
-          which gtar && {
+          which gtar > /dev/null && {
             echo "GTar Version - $(which gtar)"
             gtar --version
             
@@ -45,5 +46,5 @@ jobs:
             time gtar -cf contents_gtar.tar contents/
             
             echo "GTar Extract - $(which gtar)"
-            time gtar -xf contents_gtar.tar extracted_gtar/
+            time gtar -xf contents_gtar.tar -C extracted_gtar/
           }
