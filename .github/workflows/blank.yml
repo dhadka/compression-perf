@@ -22,35 +22,41 @@ jobs:
         shell: bash
         run: |
           mkdir -p contents
-          seq -w 1 10000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=file.%.txt bs=1024 count=10'
+          seq -w 1 100000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=file.%.txt bs=1024 count=10' > /dev/null
 
       - name: Timings
         shell: bash
         run: |
+          section() {
+            echo ""
+            echo "$*"
+            echo "$*" | sed 's/./-/g'
+          }
+        
           which tar > /dev/null && {
-            echo "Tar Version"
+            section "Tar Version"
             tar --version
           
-            echo "Tar Create"
+            section "Tar Create"
             time tar -cf contents_tar.tar contents/
             
+            section "Tar Extract"
             mkdir -p extracted_tar
-            echo "Tar Extract"
             time tar -xf contents_tar.tar -C extracted_tar/
           } || echo "tar not found"
           
           which gtar > /dev/null && {
-            echo "GTar Version"
+            section "GTar Version"
             gtar --version
             
-            echo "GTar Create"
+            section "GTar Create"
             time gtar -cf contents_gtar.tar contents/
             
+            section "GTar Extract"
             mkdir -p extracted_gtar
-            echo "GTar Extract"
             time gtar -xf contents_gtar.tar -C extracted_gtar/
-            
+        
+            section "GTar Extract Tar"
             mkdir -p extracted_tar_with_gtar
-            echo "GTar Extract Tar"
             time gtar -xf contents_tar.tar -C extracted_tar_with_gtar/
           } || echo "gtar not found"
