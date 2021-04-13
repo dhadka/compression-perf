@@ -22,8 +22,13 @@ jobs:
         shell: bash
         run: |
           mkdir -p contents
-          seq -w 1 100000 | xargs -n1 -I% sh -c 'dd if=/dev/urandom of=contents/file.%.txt bs=1024 count=10'
-
+          for i in $(seq 1 1000); do
+            mkdir -p contents/dir$i
+            for j in $(seq 1 100); do
+              dd if=/dev/urandom of=contents/dir$i/file$j.txt bs=1024 count=10 2>&1 >/dev/null
+            done
+          done
+          
       - name: Timings
         shell: bash
         run: |
