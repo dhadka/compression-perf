@@ -43,7 +43,7 @@ jobs:
             tar --version
           
             section "Tar Create"
-            time tar -cf contents_tar.tar contents/ 2>&1
+            time tar --posix -cf contents_tar.tar contents/ 2>&1
             
             section "Tar Extract"
             mkdir -p extracted_tar
@@ -58,7 +58,7 @@ jobs:
             gtar --version
             
             section "GTar Create"
-            time gtar -cf contents_gtar.tar contents/ 2>&1
+            time gtar --posix -cf contents_gtar.tar contents/ 2>&1
             
             section "GTar Extract"
             mkdir -p extracted_gtar
